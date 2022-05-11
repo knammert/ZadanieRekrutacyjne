@@ -17,7 +17,6 @@ class OrderItemsRepository
 
     public function storeOrderItems($data, $idOrder) : void
     {
-
         $cartItems = $this->cartItemModel
         ->where('cart_id', $data['idCart'])
         ->get();

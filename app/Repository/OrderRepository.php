@@ -27,7 +27,7 @@ class OrderRepository
         $this->orderModel->address_id = $idAddress;
         //Tutaj zmienić na obliczoną już w js
         $this->orderModel->total = 115.00;
-        $this->orderModel->comment = $data['comment'];
+        $this->orderModel->comment = $data['comment'] ?? '';
         $this->orderModel->save();
         return $this->orderModel->id;
 

@@ -21,14 +21,21 @@
                 font-family: 'Nunito', sans-serif;
             }
         </style>
-        <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}"></script>
         <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ URL::asset('js/custom.js') }}"></script>
         <meta name="csrf-token" content="{{ csrf_token() }}" />
+
     </head>
     <body class="antialiased">
         <main>
             @yield('content')
         </main>
+
     </body>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+        });
+    </script>
 </html>

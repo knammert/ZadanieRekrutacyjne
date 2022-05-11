@@ -13,7 +13,7 @@ class UserRepository
         $this->userModel = $userModel;
     }
 
-    public function storeUser(array $data, int $addressId): void
+    public function storeUser(array $data, int $addressId): int
     {
         $this->userModel->login = $data['login'];
         $this->userModel->password = md5($data['password']);
@@ -23,6 +23,7 @@ class UserRepository
         $this->userModel->newsletter = true;
         $this->userModel->phone = $data['phone'];
         $this->userModel->save();
+        return $this->userModel->id;
     }
 
 

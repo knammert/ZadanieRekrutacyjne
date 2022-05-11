@@ -13,6 +13,7 @@
                 </div>
                 <form method="POST" action={{ route('formRequest.post') }} enctype="multipart/form-data">
                     @csrf
+                    <input name="idCart" value="{{ Route::input('id');}}" type="hidden" />
                     <input class="form-check-input" name="register" type="checkbox" value="" id="register"> Stwórz nowe konto</>
                     {{-- Rejestracja --}}
                     <div class="form-group">
@@ -83,6 +84,40 @@
                             <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
                     </div>
+                    <div class="form-group">
+                        <input class="form-check-input" name="diffrentAddress" type="checkbox"  id="diffrentAddress"> Dostawa pod inny adres</>
+                    </div>
+                    <div class="form-group mt-3">
+                        <select class="form-select" name="countrySecond" id="countrySecond">
+                            <option selected value="Poland">Polska</option>
+                            <option value="Germany">Niemcy</option>
+                            <option value="Spain">Hiszpania</option>
+                        </select>
+                        @error('country')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group mt-3">
+                        <input type="text" name="addressSecond" class="form-control" id="addressSecond" placeholder="Adres *">
+                        @error('surname')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="row mt-3">
+                        <div class=" col-6 form-group">
+                            <input type="text" name="zipcodeSecond" class="form-control" id="zipcodeSecond"
+                                placeholder="Kod pocztowy *">
+                            @error('zipcode')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class=" col-6 form-group">
+                            <input type="text" name="citySecond" class="form-control" id="citySecond" placeholder="Miasto">
+                            @error('city')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
             </div>
             <div class="col-4">
                 <div class="card-header">
@@ -90,7 +125,7 @@
                 </div>
                 @foreach ($shippingMethods as $shippingMethod)
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="shipping" id="shipping">
+                        <input class="form-check-input" type="radio" name="shipping" value="{{$shippingMethod->id}}" id="shippingId-{{$shippingMethod->id}}">
                         <label class="form-check-label" for="shipping">
                             <img src="{{ asset('storage/shipping/' . $shippingMethod->img . '.png') }}" alt="brak"
                                 title="" width="100" height="50"></a>
@@ -103,7 +138,7 @@
                 </div>
                 @foreach ($paymentMethods as $paymentMethod)
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="payment" id="payment">
+                        <input class="form-check-input" type="radio" value="{{$paymentMethod->id}}" name="payment" id="payment">
                         <label class="form-check-label" for="payment">
                             <img src="{{ asset('storage/payment/' . $paymentMethod->img . '.png') }}" alt="brak" title=""
                                 width="100" height="50"></a>
@@ -148,33 +183,33 @@
                     <input class="form-check-input" name="register" type="checkbox" value="" id="register"> Zapoznałam/em się z Regulaminem zakupów</>
                 </div>
 
-                <button type="submit" class="btn btn-primary mt-2">Złóż zamówienie</button>
+                <button type="submit" class="btn btn-primary mt-2">Powtwierdź zakup</button>
             </div>
         </div>
         </form>
     </div>
-    {{-- <script type="text/javascript">
-    $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+    <script type="text/javascript">
+//     $.ajaxSetup({
+//     headers: {
+//         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//     }
+// });
 
-    $(".btn-submit").click(function(e){
+//     $(".btn-submit").click(function(e){
 
-    e.preventDefault();
+//     e.preventDefault();
 
-    var name = $("input[name=name]").val();
+//     var name = $("input[name=name]").val();
 
-    $.ajax({
-    type:'POST',
-    url:"{{ route('formRequest.post') }}",
-    data:{name:name},
-    success:function(data){
-        alert(data.success);
-    }
-    });
+//     $.ajax({
+//     type:'POST',
+//     url:"{{ route('formRequest.post') }}",
+//     data:{name:name},
+//     success:function(data){
+//         alert(data.success);
+//     }
+//     });
 
-    });
-    </script> --}}
+//     });
+    </script>
 @endsection

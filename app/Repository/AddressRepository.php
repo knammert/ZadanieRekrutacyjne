@@ -22,5 +22,15 @@ class AddressRepository
         return $this->addressModel->id;
     }
 
+    public function storeDiffrentShippingAddress(array $data): int
+    {
+        $this->addressModel->country = $data['countrySecond'];
+        $this->addressModel->address = $data['addressSecond'];
+        $this->addressModel->zipcode = $data['zipcodeSecond'];
+        $this->addressModel->city = $data['citySecond'];
+        $this->addressModel->save();
+        return $this->addressModel->id;
+    }
+
 
 }

@@ -5,16 +5,18 @@ use App\Models\Cart_item;
 
 class CartItemsRepository
 {
-    private Cart_item $cartItemsModel;
+    private Cart_item $cartItemModel;
 
-    public function __construct(Cart_item $cartItemsModel)
+    public function __construct(Cart_item $cartItemModel)
     {
-        $this->cartItemsModel = $cartItemsModel;
+        $this->cartItemModel = $cartItemModel;
     }
 
     public function getCartItems($id)
     {
-        return $this->cartItemsModel->get();
+        return $this->cartItemModel
+        ->where('cart_id', $id)
+        ->get();
     }
 
 

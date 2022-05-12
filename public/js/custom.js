@@ -1,3 +1,7 @@
+var discountId = 0;
+var discountAmount = 0;
+var shippingPrice = 0;
+
 function cleanValidationMessages() {
     $('#loginErrorMsg').text('');
     $('#passwordErrorMsg').text('');
@@ -15,8 +19,8 @@ function cleanValidationMessages() {
     $('#shippingErrorMsg').text('');
     $('#paymentErrorMsg').text('');
     $('#termsErrorMsg').text('');
+    $('#discountErrorMsg').text('');
 }
-
 function showValidationMessages(response) {
 $('#loginErrorMsg').text(response.responseJSON.errors.login);
 $('#passwordErrorMsg').text(response.responseJSON.errors.password);
@@ -36,90 +40,112 @@ $('#paymentErrorMsg').text(response.responseJSON.errors.payment);
 $('#termsErrorMsg').text(response.responseJSON.errors.terms);
 $('#registerErrorMsg').text(response.responseJSON.errors.register);
 }
-
-function userInputData() {
-    $("#register").click(function () {
-
-        if ($(this).is(":checked") ) {
-            $("#newAccount").show();
-        } else {
-            $("#newAccount").hide();
-            $("#diffrentAddressSection").hide();
-            $('#diffrentAddress').prop('checked', false);
-        }
-    });
+function userInputDataVisability() {
+    if ($('#register').is(":checked") ) {
+        $("#newAccount").show();
+    } else {
+        $("#newAccount").hide();
+        $("#diffrentAddressSection").hide();
+        $('#diffrentAddress').prop('checked', false);
+    }
 }
-
-function diffrentAdressInputData() {
-    $("#diffrentAddress").click(function () {
-
-        if ($(this).is(":checked") ) {
-            $("#diffrentAddressSection").show();
-        } else {
-            $("#diffrentAddressSection").hide();
-        }
-    });
+function diffrentAdressInputDataVisability() {
+    if ($("#diffrentAddress").is(":checked") ) {
+        $("#diffrentAddressSection").show();
+    } else {
+        $("#diffrentAddressSection").hide();
+    }
 }
+function showPaymentMethodsVisability() {
+       $ShippingValue = ($('input[name="shipping"]:checked').val());
 
-function showPaymentMethods() {
-
-
-    $('input[name="shipping"]').click(function () {
-       $ShippingValue = $('input[name="shipping"]:checked').val();
        if($ShippingValue == 1||$ShippingValue == 2){
             $("#payment-1").show();
-            $("#payment-2").hide();
+            $("#payment-2").show();
             $("#payment-3").show();
-
        }
        else if($ShippingValue == 3) {
-        $("#payment-1").hide();
-        $("#payment-2").show();
-        $("#payment-3").hide();
+            $("#payment-1").hide();
+            $("#payment-2").show();
+            $("#payment-3").hide();
        }
-
        $('input[name="payment"]').prop('checked', false);
-    });
-}
 
-function showHidePassword(){
-    $("#show_hide_password a").on('click', function(event) {
-        event.preventDefault();
-        if($('#show_hide_password input').attr("type") == "text"){
-            $('#show_hide_password input').attr('type', 'password');
-            $('#show_hide_password i').addClass( "fa-eye-slash" );
-            $('#show_hide_password i').removeClass( "fa-eye" );
-        }else if($('#show_hide_password input').attr("type") == "password"){
-            $('#show_hide_password input').attr('type', 'text');
-            $('#show_hide_password i').removeClass( "fa-eye-slash" );
-            $('#show_hide_password i').addClass( "fa-eye" );
+}
+function addShippingPriceToSummary(){
+
+        switch (($('input[name="shipping"]:checked').val())) {
+        case '1':
+            $('#shippingPrice1').html("Koszt Dostawy");
+            $('#shippingPrice2').html("+10,99 zł");
+            shippingPrice = '10.99';
+            break;
+        case '2':
+            $('#shippingPrice1').html("Koszt Dostawy");
+            $('#shippingPrice2').html("+18,00 zł");
+            shippingPrice = '18.00';
+            break;
+        case '3':
+            $('#shippingPrice1').html("Koszt Dostawy");
+            $('#shippingPrice2').html("+22,00 zł");
+            shippingPrice = '22.00';
+            break;
         }
-    });
+        updateTotalPrice();
 }
+function addDiscountToSummary(response){
+    discountAmount = parseFloat(response.discount.amount).toFixed(2);
+    discountAmountFixed = discountAmount.replace('.',',')
+    $('#discountPrice1').html("Rabat");
+    $('#discountPrice2').html(discountAmountFixed+' zł');
+    updateTotalPrice()
+}
+function updateTotalPrice(){
+    let summaryPrice;
+    shippingPrice = parseFloat(shippingPrice);
+    discountAmount = parseFloat(discountAmount);
+    totalPrice = parseFloat(totalPrice);
 
+    summaryPrice = shippingPrice +  discountAmount + totalPrice;
+    summaryPrice = parseFloat(summaryPrice).toFixed(2);
+    summaryPrice = summaryPrice.replace('.',',')
+    $('#summaryPrice').html(summaryPrice +' zł');
+
+}
 
 $(document).ready(function () {
-
+    // Inicjalizacja
     $("#newAccount").hide();
     $("#diffrentAddressSection").hide();
-    userInputData();
-    diffrentAdressInputData();
-    showPaymentMethods();
-    showHidePassword();
+
+    $("#register").click(function () {
+        //Widoczność rejetracji
+        userInputDataVisability();
+    });
+    $("#diffrentAddress").click(function () {
+        //Widoczność adresu dostawy
+        diffrentAdressInputDataVisability();
+    });
+
+    $('input[name="shipping"]').click(function () {
+        showPaymentMethodsVisability();
+        addShippingPriceToSummary();
+    });
+
 
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-
+    //Obsługa formularza nowego zamówienia
     $(".btn-submit").click(function(e) {
         e.preventDefault();
         //  Checkboxes
-        let register =  document.getElementById('register').checked ? true : false;
-        let diffrentAddress =  document.getElementById('diffrentAddress').checked ? true : false;
-        let newsletter =  document.getElementById('newsletter').checked ? true : false;
-        let terms =  document.getElementById('terms').checked ? true : false;
+        let register =  document.getElementById('register').checked ? 1 : 0;
+        let diffrentAddress =  document.getElementById('diffrentAddress').checked ? 1 : 0;
+        let newsletter =  document.getElementById('newsletter').checked ? 1 : 0;
+        let terms =  document.getElementById('terms').checked ? 1 : 0;
         //  Data
         let login = $('#login').val();
         let idCart = $('#idCart').val();
@@ -164,16 +190,39 @@ $(document).ready(function () {
                 register: register,
                 diffrentAddress:diffrentAddress,
                 newsletter: newsletter,
-                terms: terms
+                terms: terms,
+                discountId: discountId
             },
             success:function(response){
-                $('#successMsg').show();
+                alert('succes');
             },
             error: function(response) {
-                console.log(response);
                 cleanValidationMessages();
                 showValidationMessages(response);
             },
         });
     });
+    //Obsułga formularza kodu rabatowego
+    $(".discountButton").click(function(e) {
+        e.preventDefault();
+        let discountCode = $('#discountCode').val();
+        $.ajax({
+            type: 'POST',
+            url:'/checkDiscount',
+            data: {
+                discountCode:discountCode
+            },
+            success:function(response){
+                $('#discountErrorMsg').text('');
+                alert('Wprowadzono poprawny kod!')
+                discountId = response.discount.id;
+                addDiscountToSummary(response);
+            },
+            error: function(response) {
+                $('#discountErrorMsg').text('');
+                $('#discountErrorMsg').text(response.responseJSON.discountError);
+            },
+        });
+    });
+
 });

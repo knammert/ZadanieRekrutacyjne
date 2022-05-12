@@ -39,10 +39,12 @@ class StoreOrderRequest extends FormRequest
             'citySecond' => 'required_if:diffrentAddress,true',
             'shipping' => 'required',
             'payment' => 'required',
-            'terms' => 'in:true',
-            'register' => 'in:true',
+            'terms' => 'in:1',
+            'register' => 'in:1',
+            'newsletter'=> '',
             'comment'=> 'nullable',
-            'idCart'=> 'required'
+            'idCart'=> 'required',
+            'discountId' =>''
         ];
     }
     public function messages()

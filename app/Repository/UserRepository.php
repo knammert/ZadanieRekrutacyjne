@@ -20,7 +20,7 @@ class UserRepository
         $this->userModel->name = $data['name'];
         $this->userModel->surname = $data['surname'];
         $this->userModel->address_id = $addressId;
-        $this->userModel->newsletter = true;
+        $this->userModel->newsletter = $data['newsletter'];;
         $this->userModel->phone = $data['phone'];
         $this->userModel->save();
         return $this->userModel->id;

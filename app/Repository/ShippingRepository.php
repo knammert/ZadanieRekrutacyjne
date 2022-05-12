@@ -14,8 +14,13 @@ class ShippingRepository
 
     public function getShippingMethods()
     {
-
         return $this->shippingModel->get();
+    }
+    public function getShippingPrice($idShipping)
+    {
+        $shipping = $this->shippingModel->find($idShipping);
+
+        return $shipping->price;
     }
 
 

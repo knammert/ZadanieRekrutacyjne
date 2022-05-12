@@ -17,5 +17,12 @@ class CartRepository
         return $this->cartModel->find($id);
     }
 
+    public function getTotalCard($id): float
+    {
+        $cart = $this->cartModel->find($id);
+
+        return $cart->total;
+    }
+
 
 }

@@ -113,10 +113,10 @@
                                     src="{{ asset('storage/shipping/' . $shippingMethod->img . '.png') }}" alt="brak"
                                     title="" height="40px" />
                             </div>
-                            <div class="col-7   d-flex align-items-center " for="shipping">
+                            <div class="col-7   d-flex align-items-center">
                                 {{ $shippingMethod->name }}
                             </div>
-                            <div class="col-2   d-flex align-items-center justify-content-end" for="shipping">
+                            <div class="col-2   d-flex align-items-center justify-content-end">
                                 <b>{{ number_format($shippingMethod->price, 2, ',', '.') }} zł</b>
                             </div>
                         </div>
@@ -137,12 +137,17 @@
                         </div>
                     @endforeach
                     <span class="text-danger" id="paymentErrorMsg"></span>
+                    <div class="form-group mt-3">
+                        <input type="text" name="discountCode" id="discountCode" placeholder="Kod rabatowy">
+                        <span class="text-danger" id="discountErrorMsg"></span>
+                    </div>
                     <button type="button" class="discountButton mt-2">Dodaj kod rabatowy</button>
+
                 </div>
 
                 <div class="col-md-4 col-sm-4 col-xs-4 ">
                     <div class="myCard d-flex align-items-center">
-                        <i class="fa-solid fa-calendar-lines mr-2"></i> 4. PODSUMOWANIE
+                        <i class="fa-solid fa-calendar mr-2"></i> 4. PODSUMOWANIE
                     </div>
                     @foreach ($cartItems as $cartItem)
                         <div class="row mt-2 p-2 ">
@@ -163,18 +168,26 @@
                             </div>
                         </div>
                     @endforeach
-                    <div class="row mt-2 p-2 borderCheckout ">
-                        <div class="col-10 ">
+                    <div class="row m-2 borderCheckout">
+                        <div class="col-10 mt-2">
                             Suma częściowa
                         </div>
-                        <div class="col-2  d-flex justify-content-end">
-                           <b> {{ number_format($cart->total, 2, ',', '.') }} zł </b>
+                        <div class="col-2 mt-2 d-flex justify-content-end">
+                            <b> {{ number_format($cart->total, 2, ',', '.') }} zł </b>
+                        </div>
+                        <div class="col-10 " id="shippingPrice1">
+                        </div>
+                        <div class="col-2  d-flex justify-content-end" id="shippingPrice2">
+                        </div>
+                        <div class="col-10 " id="discountPrice1">
+                        </div>
+                        <div class="col-2  d-flex justify-content-end" id="discountPrice2">
                         </div>
                         <div class="col-8 ">
                             <p class="fs-2 fw-bolder ">Łącznie</p>
                         </div>
-                        <div class="col-4 fs-2 fw-bolder d-flex justify-content-end">
-                            {{ number_format($cart->total, 2, ',', '.') }} zł
+                        <div class="col-4 fs-2 fw-bolder d-flex justify-content-end" id="summaryPrice">
+                             <b> {{ number_format($cart->total, 2, ',', '.') }} zł </b>
                         </div>
                     </div>
 
@@ -192,7 +205,7 @@
                         się z <a class="text-primary" href="">Regulaminem</a> zakupów</>
                         <span class="text-danger" id="termsErrorMsg"></span>
                     </div>
-                    <button type="button" class="submitButton btn-submit mt-4">Powtwierdź zakup</button>
+                    <button type="button" class="submitButton btn-submit mt-4">Potwierdź zakup</button>
                 </div>
 
             </div>
@@ -200,4 +213,7 @@
         <div class="alert alert-success" role="alert" id="successMsg" style="display: none">
         </div>
     </div>
+    <script type="text/javascript">
+        let totalPrice = parseFloat({{$cart->total}}).toFixed(2) ;
+    </script>
 @endsection

@@ -108,6 +108,22 @@ class DataSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
+        DB::table('discounts')->insert([
+            'id' => 1,
+            'active' => true,
+            'code' => 'SmartBees',
+            'amount' => -20,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        DB::table('discounts')->insert([
+            'id' => 2,
+            'active' => false,
+            'code' => 'ZAKUPY24',
+            'amount' => -10,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
 
     }
 }

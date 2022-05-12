@@ -37,20 +37,32 @@ $('#termsErrorMsg').text(response.responseJSON.errors.terms);
 $('#registerErrorMsg').text(response.responseJSON.errors.register);
 }
 
-function orderWithRegistraiton() {
+function userInputData() {
     $("#register").click(function () {
-        if ($(this).is(":checked")) {
+
+        if ($(this).is(":checked") ) {
             $("#newAccount").show();
         } else {
             $("#newAccount").hide();
+            $("#diffrentAddressSection").hide();
+            $('#diffrentAddress').prop('checked', false);
+        }
+    });
+}
+
+function diffrentAdressInputData() {
+    $("#diffrentAddress").click(function () {
+
+        if ($(this).is(":checked") ) {
+            $("#diffrentAddressSection").show();
+        } else {
+            $("#diffrentAddressSection").hide();
         }
     });
 }
 
 function showPaymentMethods() {
-    $("#payment-1").hide();
-    $("#payment-2").hide();
-    $("#payment-3").hide();
+
 
     $('input[name="shipping"]').click(function () {
        $ShippingValue = $('input[name="shipping"]:checked').val();
@@ -70,12 +82,30 @@ function showPaymentMethods() {
     });
 }
 
+function showHidePassword(){
+    $("#show_hide_password a").on('click', function(event) {
+        event.preventDefault();
+        if($('#show_hide_password input').attr("type") == "text"){
+            $('#show_hide_password input').attr('type', 'password');
+            $('#show_hide_password i').addClass( "fa-eye-slash" );
+            $('#show_hide_password i').removeClass( "fa-eye" );
+        }else if($('#show_hide_password input').attr("type") == "password"){
+            $('#show_hide_password input').attr('type', 'text');
+            $('#show_hide_password i').removeClass( "fa-eye-slash" );
+            $('#show_hide_password i').addClass( "fa-eye" );
+        }
+    });
+}
+
 
 $(document).ready(function () {
 
     $("#newAccount").hide();
-    orderWithRegistraiton();
+    $("#diffrentAddressSection").hide();
+    userInputData();
+    diffrentAdressInputData();
     showPaymentMethods();
+    showHidePassword();
 
     $.ajaxSetup({
         headers: {

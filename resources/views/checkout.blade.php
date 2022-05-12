@@ -4,7 +4,7 @@
         <form method="POST" enctype="multipart/form-data" id="checkoutForm">
             @csrf
             <div class="row m-3">
-                <div class="col-md-4 col-sm-4 col-xs-4">
+                <div class="col-xl-4 col-md-6 col-sm-12">
                     <div class="myCard d-flex align-items-center">
                         <i class="fas fa-user mr-2"></i> 1. TWOJE DANE
                     </div>
@@ -98,96 +98,114 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-4 col-xs-4">
+                <div class="col-xl-4 col-md-6 col-sm-12">
                     <div class="myCard d-flex align-items-center">
                         <i class="fa-solid fa-truck-fast mr-2"></i> 2. METODA DOSTAWY
                     </div>
-                    @foreach ($shippingMethods as $shippingMethod)
-                        <div class=" p-2 mb-3 row mb-2 ">
-                            <div class="col-1  d-flex align-items-center justify-content-center ">
-                                <input class="" type="radio" name="shipping"
-                                    value="{{ $shippingMethod->id }}" id="shippingId-{{ $shippingMethod->id }}">
+                    <div class="p-2 row mt-3">
+                        @foreach ($shippingMethods as $shippingMethod)
+                            <div class=" d-flex w-100 mb-5 justify-content-center align-items-center">
+                                <div class="d-flex">
+                                    <input class="" type="radio" name="shipping"
+                                        value="{{ $shippingMethod->id }}" id="shippingId-{{ $shippingMethod->id }}">
+                                </div>
+                                <div class="d-flex">
+                                    <img class="img-fluid"
+                                        src="{{ asset('storage/shipping/' . $shippingMethod->img . '.png') }}" alt="brak"
+                                        title="" height="30px" width="70px" />
+                                </div>
+                                <div class="flex-grow-1 d-flex ml-4">
+                                    {{ $shippingMethod->name }}
+                                </div>
+                                <div class="d-flex ">
+                                    <b>{{ number_format($shippingMethod->price, 2, ',', '.') }} zł</b>
+                                </div>
                             </div>
-                            <div class="col-2  d-flex align-items-center justify-content-center ">
-                                <img class=""
-                                    src="{{ asset('storage/shipping/' . $shippingMethod->img . '.png') }}" alt="brak"
-                                    title="" height="40px" />
-                            </div>
-                            <div class="col-7   d-flex align-items-center">
-                                {{ $shippingMethod->name }}
-                            </div>
-                            <div class="col-2   d-flex align-items-center justify-content-end">
-                                <b>{{ number_format($shippingMethod->price, 2, ',', '.') }} zł</b>
-                            </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                     <span class="text-danger" id="shippingErrorMsg"></span>
                     <div class="myCard d-flex align-items-center">
                         <i class="fa-solid fa-credit-card mr-2"></i> 3. METODA PŁATNOŚCI
                     </div>
-                    @foreach ($paymentMethods as $paymentMethod)
-                        <div class="form-check p-2 mb-3" id="payment-{{ $paymentMethod->id }}">
-                            <input type="radio" value="{{ $paymentMethod->id }}" name="payment">
-                            <img class=""
-                                src="{{ asset('storage/payment/' . $paymentMethod->img . '.png') }}" alt="brak" title=""
-                                width="70" height="auto"></a>
-                            <label class="" for="payment">
-                                {{ $paymentMethod->name }}
-                            </label>
-                        </div>
-                    @endforeach
+                    <div class="p-2 row mt-3">
+                        @foreach ($paymentMethods as $paymentMethod)
+                            <div class=" d-flex w-100 mb-5 align-items-center" id="payment-{{ $paymentMethod->id }}">
+                                <div class="d-flex">
+                                    <input type="radio" value="{{ $paymentMethod->id }}" name="payment">
+                                </div>
+                                <div class="d-flex ">
+                                    <img class=""
+                                        src="{{ asset('storage/payment/' . $paymentMethod->img . '.png') }}" alt="brak"
+                                        title="" width="70" height="45"></a>
+                                </div>
+                                <div class="d-flex ml-4">
+                                    {{ $paymentMethod->name }}
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                     <span class="text-danger" id="paymentErrorMsg"></span>
                     <div class="form-group mt-3">
                         <input type="text" name="discountCode" id="discountCode" placeholder="Kod rabatowy">
                         <span class="text-danger" id="discountErrorMsg"></span>
                     </div>
-                    <button type="button" class="discountButton mt-2">Dodaj kod rabatowy</button>
-
+                    <button type="button" class="discountButton mt-2 mb-5">Dodaj kod rabatowy</button>
                 </div>
 
-                <div class="col-md-4 col-sm-4 col-xs-4 ">
+                <div class="col-xl-4 col-md-6 col-sm-12 ">
                     <div class="myCard d-flex align-items-center">
                         <i class="fa-solid fa-calendar mr-2"></i> 4. PODSUMOWANIE
                     </div>
-                    @foreach ($cartItems as $cartItem)
-                        <div class="row mt-2 p-2 ">
-                            <div class="col-2 ">
-                                <img class="" src="https://picsum.photos/100" alt="brak" title="" height="50"
-                                    width="90"></a>
-                            </div>
-                            <div class="col-8 ">
-                                <div class="col">
-                                    <b>{{ $cartItem->product->name }}</b>
+                    <div class="p-2 row mt-3">
+                        @foreach ($cartItems as $cartItem)
+                            <div class="d-flex w-100 mb-3">
+                                <div class="d-flex">
+                                    <img class="" src="https://picsum.photos/100" alt="brak" title=""
+                                        height="50" width="90"></a>
                                 </div>
-                                <div class="col ">
-                                    Ilość: {{ $cartItem->quantity }}
+                                <div class="flex-grow-1 row ml-1">
+                                    <div class="d-flex w-100">
+                                        <b>{{ $cartItem->product->name }}</b>
+                                    </div>
+                                    <div class="d-flex w-100">
+                                        Ilość: {{ $cartItem->quantity }}
+                                    </div>
+                                </div>
+                                <div class="col-2 d-flex justify-content-end align-self-start">
+                                    <b>{{ number_format($cartItem->product->price, 2, ',', '.') }} zł </b>
                                 </div>
                             </div>
-                            <div class="col-2  d-flex justify-content-end">
-                                <b>{{ number_format($cartItem->product->price, 2, ',', '.') }} zł </b>
+                        @endforeach
+                    </div>
+                    <div class="row m-0 borderCheckout">
+                        <div class="d-flex w-100 mt-2 ">
+                            <div class="d-flex flex-grow-1 ml-2">
+                                Suma częściowa
+                            </div>
+                            <div class="d-flex justify-content-end ">
+                                 {{ number_format($cart->total, 2, ',', '.') }} zł
                             </div>
                         </div>
-                    @endforeach
-                    <div class="row m-2 borderCheckout">
-                        <div class="col-10 mt-2">
-                            Suma częściowa
+
+                        <div class="d-flex w-100 mt-2 ">
+                            <div class="d-flex flex-grow-1 ml-2 " id="shippingPrice1">
+                            </div>
+                            <div class="d-flex  justify-content-end " id="shippingPrice2">
+                            </div>
                         </div>
-                        <div class="col-2 mt-2 d-flex justify-content-end">
-                            <b> {{ number_format($cart->total, 2, ',', '.') }} zł </b>
+                        <div class="d-flex w-100 mt-2">
+                            <div class="d-flex flex-grow-1 ml-2" id="discountPrice1">
+                            </div>
+                            <div class="d-flex  justify-content-end" id="discountPrice2">
+                            </div>
                         </div>
-                        <div class="col-10 " id="shippingPrice1">
-                        </div>
-                        <div class="col-2  d-flex justify-content-end" id="shippingPrice2">
-                        </div>
-                        <div class="col-10 " id="discountPrice1">
-                        </div>
-                        <div class="col-2  d-flex justify-content-end" id="discountPrice2">
-                        </div>
-                        <div class="col-8 ">
-                            <p class="fs-2 fw-bolder ">Łącznie</p>
-                        </div>
-                        <div class="col-4 fs-2 fw-bolder d-flex justify-content-end" id="summaryPrice">
-                             <b> {{ number_format($cart->total, 2, ',', '.') }} zł </b>
+                        <div class="d-flex w-100 mt-2">
+                            <div class="fs-2 fw-bolder d-flex flex-grow-1 ml-2">
+                                <p class="fs-2 fw-bolder ">Łącznie</p>
+                            </div>
+                            <div class="fs-2 fw-bolder d-flex  justify-content-end" id="summaryPrice">
+                                <b> {{ number_format($cart->total, 2, ',', '.') }} zł </b>
+                            </div>
                         </div>
                     </div>
 
@@ -214,6 +232,6 @@
         </div>
     </div>
     <script type="text/javascript">
-        let totalPrice = parseFloat({{$cart->total}}).toFixed(2) ;
+        let totalPrice = parseFloat({{ $cart->total }}).toFixed(2);
     </script>
 @endsection

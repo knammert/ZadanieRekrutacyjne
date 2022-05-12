@@ -213,12 +213,13 @@ $(document).ready(function () {
                 discountCode:discountCode
             },
             success:function(response){
-                $('#discountErrorMsg').text('');
-                alert('Wprowadzono poprawny kod!')
+                $('#discountErrorMsg').removeClass('text-danger').addClass('text-success');
+                $('#discountErrorMsg').text('Pomyślnie dodano kod rabatowy');
                 discountId = response.discount.id;
                 addDiscountToSummary(response);
             },
             error: function(response) {
+                $('#discountErrorMsg').removeClass('text-success').addClass('text-danger');
                 $('#discountErrorMsg').text('');
                 $('#discountErrorMsg').text(response.responseJSON.discountError);
             },

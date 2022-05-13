@@ -19,7 +19,7 @@ class DiscountRepository
         return $this->discountModel->find($id);
     }
     // Sprawdzenie czy istnieje podany kod rabatowy i zwrócenie go jeśli istnieje,
-    // bądź zwrócenie błedu HTTP 422 jeśli nie.
+    // bądź zwrócenie błedu HTTP 422 jeśli nie lub gdy nie jest aktywny.
     public function checkIfDiscountCodeExist($data)
     {
         $discount = $this->discountModel

@@ -189,13 +189,15 @@ $(document).ready(function () {
 
     $("#newAccount").hide();
     $("#diffrentAddressSection").hide();
-
+    //Checkbox rejestracji
     $("#register").click(function () {
         userInputDataVisability();
     });
+    //Checkbox innego adresu dostawy
     $("#diffrentAddress").click(function () {
         diffrentAdressInputDataVisability();
     });
+    //Checkbox metody dostawy
     $('input[name="shipping"]').click(function () {
         showPaymentMethodsVisability();
         addShippingPriceToSummary();
@@ -235,11 +237,11 @@ $(document).ready(function () {
         let shipping = $("input[name='shipping']:checked").val();
         let payment = $("input[name='payment']:checked").val();
 
+        //Wywołanie walidacji
         if($("#checkoutForm").valid()==true){
             $('#checkoutForm').validate().resetForm();
             $.ajax({
                 type: 'POST',
-                //   url: "{{ route('formRequest.post') }}",
                 url:'/formRequest',
                 data: {
                     idCart : idCart,
@@ -266,7 +268,8 @@ $(document).ready(function () {
                     discountId: discountId
                 },
                 success:function(response){
-                    alert('succes');
+                    console.log(response);
+                    window.location=response.url;
                 },
                 error: function(response) {
                     cleanValidationMessages();

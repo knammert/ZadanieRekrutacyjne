@@ -20,6 +20,7 @@ return new class extends Migration
             $table->bigInteger('payment_id');
             $table->bigInteger('address_id');
             $table->bigInteger('discount_id')->nullable();
+            $table->integer('orderNumber')->nullable();
             $table->decimal('total', 10, 2);
             $table->string('comment');
             $table->timestamps();

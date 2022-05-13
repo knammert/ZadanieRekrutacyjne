@@ -13,7 +13,7 @@ class UserRepository
         $this->userModel = $userModel;
     }
     //Zapisywanie nowego użytkownika
-    public function storeUser(array $data, int $addressId): int
+    public function storeUser(array $data, int $addressId)
     {
         $this->userModel->login = $data['login'];
         $this->userModel->password = md5($data['password']);
@@ -23,8 +23,7 @@ class UserRepository
         $this->userModel->newsletter = $data['newsletter'];;
         $this->userModel->phone = $data['phone'];
         $this->userModel->save();
-        return $this->userModel->id;
+        return $this->userModel;
     }
-
 
 }

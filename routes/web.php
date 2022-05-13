@@ -20,3 +20,4 @@ Route::get('/', function () {
 Route::get('checkout/{id}', 'App\Http\Controllers\CartController@showOrder')->name('checkout');
 Route::post('formRequest', 'App\Http\Controllers\OrderController@storeOrder')->name('formRequest.post');
 Route::post('checkDiscount', 'App\Http\Controllers\OrderController@getDiscountId')->name('formRequest.checkDiscount');
+Route::view('/ordered', 'ordered');

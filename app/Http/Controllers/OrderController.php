@@ -43,12 +43,13 @@ class OrderController extends Controller
     public function storeOrder(StoreOrderRequest $request)
     {
         $data = $request->validated();
-        // $idAddress = $this->addressRepository->storeUserAddress($data);
-        // $idUser = $this->userRepository->storeUser($data, $idAddress);
-        // $idOrder = $this->orderRepository->storeOrder($data, $idAddress, $idUser);
-        // $this->orderItemsRepository->storeOrderItems($data, $idOrder);
+        $idAddress = $this->addressRepository->storeUserAddress($data);
+        $user = $this->userRepository->storeUser($data, $idAddress);
+        $order = $this->orderRepository->storeOrder($data, $idAddress, $user->id);
+        $this->orderItemsRepository->storeOrderItems($data, $order->id);
 
-        return response()->json(['success'=>'Successfully']);
+        return response()->json(['url'=>url("/ordered/?name={$user->name}&orderNumber={$order->orderNumber}&total={$order->total}&orderDate={$order->created_at}")]);
+
     }
     public function getDiscountId(Request $request){
 

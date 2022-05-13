@@ -25,6 +25,10 @@ Udało mi się zrealizować prawie wszystkie zadania oprócz testów, SCCS'a i w
 - order_items - podobnie jak z koszykiem tylko, że dla zamówień
 - discounts - rabaty uwzględniłem tylko w złotówkach.
 
+Kody rabatowe:
+ZAKUPY24 - nieaktwyny
+SmartBees - aktywny
+
 
 
 

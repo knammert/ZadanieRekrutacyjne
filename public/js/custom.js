@@ -244,6 +244,7 @@ $(document).ready(function () {
         let zipcode = $('#zipcode').val();
         let city = $('#city').val();
         let phone = $('#phone').val();
+        let countrySecond = $('#countrySecond').val();
         let addressSecond = $('#addressSecond').val();
         let zipcodeSecond = $('#zipcodeSecond').val();
         let citySecond = $('#citySecond').val();
@@ -274,6 +275,7 @@ $(document).ready(function () {
                     addressSecond: addressSecond,
                     zipcodeSecond: zipcodeSecond,
                     citySecond: citySecond,
+                    countrySecond: countrySecond,
                     shipping: shipping,
                     payment: payment,
                     comment: comment,

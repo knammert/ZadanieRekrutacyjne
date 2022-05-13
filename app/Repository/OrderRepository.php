@@ -34,7 +34,7 @@ class OrderRepository
     public function storeOrder($data, $idAddress, $idUser)
     {
         $total = 0;
-        if(isset($data['diffrentAddress'])) {
+        if($data['diffrentAddress']==true) {
             $idAddress = $this->addressRepository->storeDiffrentShippingAddress($data);
         }
         $total = $this->cartRepository->getTotalCard($data['idCart']);

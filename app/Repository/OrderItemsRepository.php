@@ -14,7 +14,7 @@ class OrderItemsRepository
         $this->orderItemsModel = $orderItemsModel;
         $this->cartItemModel = $cartItemModel;
     }
-
+    //Zapis do bazy produktów przypisanych do zamówienia
     public function storeOrderItems($data, $idOrder) : void
     {
         $cartItems = $this->cartItemModel

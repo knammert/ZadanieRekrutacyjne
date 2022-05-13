@@ -25,7 +25,11 @@ class CartController extends Controller
         $this->cartRepository =  $cartRepository;
     }
     /**
-     * Display the specified resource.
+     *  Ładowanie koszyka, którego id przechowywane jest jako parametr w URL
+     *  $shippingMethods - metody dostawy do wyświetlnia
+     *  $paymentMethods -  metody płatności do wyświetlenia
+     *  $cartItems - produkty do wyświetlenia
+     *  $cart - informacje o koszyku
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -36,7 +40,6 @@ class CartController extends Controller
        $paymentMethods = $this->paymentRepository->getPaymentMethods();
        $cart = $this->cartRepository->getCart($id);
        $cartItems = $this->cartItemRepository->getCartItems($id);
-
 
         return view('checkout', [
             'shippingMethods' => $shippingMethods,

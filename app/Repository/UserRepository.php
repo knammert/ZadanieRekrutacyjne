@@ -12,7 +12,7 @@ class UserRepository
     {
         $this->userModel = $userModel;
     }
-
+    //Zapisywanie nowego użytkownika
     public function storeUser(array $data, int $addressId): int
     {
         $this->userModel->login = $data['login'];

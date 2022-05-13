@@ -25,6 +25,7 @@
         <script src="{{ asset('js/app.js') }}"></script>
         <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script type="text/javascript" src="{{ URL::asset('js/custom.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
         <link href="{{ asset('css/styles.css') }}" rel="stylesheet" type="text/css" >
         <meta name="csrf-token" content="{{ csrf_token() }}" />
 

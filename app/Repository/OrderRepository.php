@@ -27,7 +27,8 @@ class OrderRepository
         $this->shippingRepository = $shippingRepository;
         $this->discountRepository = $discountRepository;
     }
-
+    //Zapis do bazy zamówienia
+    //Do zmiennej $total podliczana jest całkowita kwota zamówienia uwzględniajaca rabat oraz dostawę
     public function storeOrder($data, $idAddress, $idUser):int
     {
         $total = 0;

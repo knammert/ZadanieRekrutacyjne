@@ -11,7 +11,7 @@ class PaymentRepository
     {
         $this->paymentModel = $paymentModel;
     }
-
+    //Pobieranie metod płatności
     public function getPaymentMethods()
     {
         return $this->paymentModel->get();

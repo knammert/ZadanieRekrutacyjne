@@ -1,7 +1,9 @@
+// Zmienne do wyświetlania kwoty podsumowania
 var discountId = 0;
 var discountAmount = 0;
 var shippingPrice = 0;
 
+//Usunięcie klas walidacji
 function cleanValidationMessages() {
     $('#loginErrorMsg').text('');
     $('#passwordErrorMsg').text('');
@@ -20,7 +22,9 @@ function cleanValidationMessages() {
     $('#paymentErrorMsg').text('');
     $('#termsErrorMsg').text('');
     $('#discountErrorMsg').text('');
+    $('#registerErrorMsg').text('');
 }
+//Wyświetlnie klas walidacji
 function showValidationMessages(response) {
 $('#loginErrorMsg').text(response.responseJSON.errors.login);
 $('#passwordErrorMsg').text(response.responseJSON.errors.password);
@@ -40,6 +44,7 @@ $('#paymentErrorMsg').text(response.responseJSON.errors.payment);
 $('#termsErrorMsg').text(response.responseJSON.errors.terms);
 $('#registerErrorMsg').text(response.responseJSON.errors.register);
 }
+//Wyświetlenie formularza rejestracji
 function userInputDataVisability() {
     if ($('#register').is(":checked") ) {
         $("#newAccount").show();
@@ -49,6 +54,7 @@ function userInputDataVisability() {
         $('#diffrentAddress').prop('checked', false);
     }
 }
+//Wyświetlenie dodatkowego adresu dostawy
 function diffrentAdressInputDataVisability() {
     if ($("#diffrentAddress").is(":checked") ) {
         $("#diffrentAddressSection").show();
@@ -56,6 +62,7 @@ function diffrentAdressInputDataVisability() {
         $("#diffrentAddressSection").hide();
     }
 }
+//Wyświetlenie metod płatności w zależności od wybranej metody dostawy
 function showPaymentMethodsVisability() {
        $ShippingValue = ($('input[name="shipping"]:checked').val());
 
@@ -72,6 +79,7 @@ function showPaymentMethodsVisability() {
        $('input[name="payment"]').prop('checked', false);
 
 }
+//Dodanie tekstu kosztu dostawy po wybraniu metody płatności
 function addShippingPriceToSummary(){
 
         switch (($('input[name="shipping"]:checked').val())) {
@@ -93,6 +101,7 @@ function addShippingPriceToSummary(){
         }
         updateTotalPrice();
 }
+//Dodanie tekstu rabatu po wprowadzeniu dobrego kodu
 function addDiscountToSummary(response){
     discountAmount = parseFloat(response.discount.amount).toFixed(2);
     discountAmountFixed = discountAmount.replace('.',',')
@@ -100,6 +109,7 @@ function addDiscountToSummary(response){
     $('#discountPrice2').html(discountAmountFixed+' zł');
     updateTotalPrice()
 }
+//Aktualizacja kosztu zamówienia w podsumowaniu
 function updateTotalPrice(){
     let summaryPrice;
     shippingPrice = parseFloat(shippingPrice);
@@ -114,25 +124,83 @@ function updateTotalPrice(){
 }
 
 $(document).ready(function () {
-    // Inicjalizacja
+    //Tłumaczenie wiadomości walidacji
+    jQuery.extend(jQuery.validator.messages, {
+        required: "Pole jest wymagane",
+        maxlength: jQuery.validator.format("Wprowadź nie więcej niż {0} znaków."),
+        minlength: jQuery.validator.format("Wprowadź więcej niż {0} znaków."),
+        equalTo: jQuery.validator.format("Podane hasła nie zgadzają się."),
+        digits: jQuery.validator.format("Proszę wprowadzić wyłącznie liczby."),
+    });
+    //Walidacja z użyciem jquery validator
+    $("#checkoutForm").validate({
+        errorElement: 'span',
+        errorClass: 'desc',
+        rules: {
+            login: {
+                required: true,
+                minlength: 3,
+                maxlength: 16
+            },
+            password: {
+                required: true,
+                minlength: 6
+            },
+            password_confirmation: {
+                required: true,
+                minlength: 6,
+                equalTo : "#password"
+            },
+            name : "required",
+            surname: "required",
+            country: "required",
+            address: "required",
+            zipcode: "required",
+            city: "required",
+            phone: {
+                required: true,
+                digits: true,
+            },
+            countrySecond: "required",
+            addressSecond: "required",
+            zipcodeSecond: "required",
+            citySecond: "required",
+            shipping: "required",
+            payment: "required",
+            terms: "required"
+        },
+
+        errorPlacement: function(error, element) {
+            if (element.attr("name") == "shipping") {
+                $("#shippingErrorMsg").html( error );
+
+            }
+            else if (element.attr("name") == "payment") {
+                $("#paymentErrorMsg").html( error );
+            }
+            else if (element.attr("name") == "terms") {
+                $("#termsErrorMsg").html( error );
+            }
+            else{
+                error.insertAfter(element);
+            }
+        }
+    });
+
     $("#newAccount").hide();
     $("#diffrentAddressSection").hide();
 
     $("#register").click(function () {
-        //Widoczność rejetracji
         userInputDataVisability();
     });
     $("#diffrentAddress").click(function () {
-        //Widoczność adresu dostawy
         diffrentAdressInputDataVisability();
     });
-
     $('input[name="shipping"]').click(function () {
         showPaymentMethodsVisability();
         addShippingPriceToSummary();
     });
-
-
+    //Deklaracja tokensu CSRF
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -141,6 +209,7 @@ $(document).ready(function () {
     //Obsługa formularza nowego zamówienia
     $(".btn-submit").click(function(e) {
         e.preventDefault();
+
         //  Checkboxes
         let register =  document.getElementById('register').checked ? 1 : 0;
         let diffrentAddress =  document.getElementById('diffrentAddress').checked ? 1 : 0;
@@ -163,44 +232,49 @@ $(document).ready(function () {
         let citySecond = $('#citySecond').val();
         let comment = $('#comment').val();
         //  Radio
-        let shipping = $("input[name='shipping']:checked").val()
-        let payment = $("input[name='payment']:checked").val()
-        $.ajax({
-            type: 'POST',
-            //   url: "{{ route('formRequest.post') }}",
-            url:'/formRequest',
-            data: {
-                idCart : idCart,
-                login: login,
-                password: password,
-                password_confirmation: password_confirmation,
-                name: name,
-                surname: surname,
-                country: country,
-                address: address,
-                zipcode: zipcode,
-                city: city,
-                phone: phone,
-                addressSecond: addressSecond,
-                zipcodeSecond: zipcodeSecond,
-                citySecond: citySecond,
-                shipping: shipping,
-                payment: payment,
-                comment: comment,
-                register: register,
-                diffrentAddress:diffrentAddress,
-                newsletter: newsletter,
-                terms: terms,
-                discountId: discountId
-            },
-            success:function(response){
-                alert('succes');
-            },
-            error: function(response) {
-                cleanValidationMessages();
-                showValidationMessages(response);
-            },
-        });
+        let shipping = $("input[name='shipping']:checked").val();
+        let payment = $("input[name='payment']:checked").val();
+
+        if($("#checkoutForm").valid()==true){
+            $('#checkoutForm').validate().resetForm();
+            $.ajax({
+                type: 'POST',
+                //   url: "{{ route('formRequest.post') }}",
+                url:'/formRequest',
+                data: {
+                    idCart : idCart,
+                    login: login,
+                    password: password,
+                    password_confirmation: password_confirmation,
+                    name: name,
+                    surname: surname,
+                    country: country,
+                    address: address,
+                    zipcode: zipcode,
+                    city: city,
+                    phone: phone,
+                    addressSecond: addressSecond,
+                    zipcodeSecond: zipcodeSecond,
+                    citySecond: citySecond,
+                    shipping: shipping,
+                    payment: payment,
+                    comment: comment,
+                    register: register,
+                    diffrentAddress:diffrentAddress,
+                    newsletter: newsletter,
+                    terms: terms,
+                    discountId: discountId
+                },
+                success:function(response){
+                    alert('succes');
+                },
+                error: function(response) {
+                    cleanValidationMessages();
+                    showValidationMessages(response);
+                },
+            });
+        }
+
     });
     //Obsułga formularza kodu rabatowego
     $(".discountButton").click(function(e) {
@@ -215,6 +289,7 @@ $(document).ready(function () {
             success:function(response){
                 $('#discountErrorMsg').removeClass('text-danger').addClass('text-success');
                 $('#discountErrorMsg').text('Pomyślnie dodano kod rabatowy');
+
                 discountId = response.discount.id;
                 addDiscountToSummary(response);
             },

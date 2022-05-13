@@ -12,12 +12,13 @@ class DiscountRepository
     {
         $this->discountModel = $discountModel;
     }
-
+    //pobieranie rabatu
     public function getDiscount($id)
     {
         return $this->discountModel->find($id);
     }
-
+    // Sprawdzenie czy istnieje podany kod rabatowy i zwrócenie go jeśli istnieje,
+    // bądź zwrócenie błedu HTTP 422 jeśli nie.
     public function checkIfDiscountCodeExist($data)
     {
         $discount = $this->discountModel
@@ -39,6 +40,7 @@ class DiscountRepository
             ]);
         }
     }
+    //pobieranie wartości amount z rabatu
     public function getDiscountAmount($idDiscount){
         $discount = $this->getDiscount($idDiscount);
         return $discount->amount;

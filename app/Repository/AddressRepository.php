@@ -11,7 +11,7 @@ class AddressRepository
     {
         $this->addressModel = $addressModel;
     }
-
+    //Zapisywanie adresu nowego użytkownika
     public function storeUserAddress(array $data): int
     {
         $this->addressModel->country = $data['country'];
@@ -21,7 +21,7 @@ class AddressRepository
         $this->addressModel->save();
         return $this->addressModel->id;
     }
-
+    //Zapisywanie adresu w przypadku wyrbania innego adresu dostawy
     public function storeDiffrentShippingAddress(array $data): int
     {
         $this->addressModel->country = $data['countrySecond'];

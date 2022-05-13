@@ -55,7 +55,7 @@ return [
 	),
 	"not_in"               => "wybrany :attribute jest nieprawidłowy.",
 	"numeric"              => ":attribute must be a number.",
-	"regex"                => "format :attribute jest nieprawidłowy",
+	"regex"                => "Format jest nieprawidłowy",
 	"required"             => "Pole jest wymagane.",
 	"required_if"          => "Pole jest wymagane.",
 	"required_with"        => "pole :attribute jest wymagane, gdy :values są zdefiniowane.",

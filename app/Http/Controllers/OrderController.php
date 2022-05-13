@@ -35,7 +35,7 @@ class OrderController extends Controller
         $this->discountRepository = $discountRepository;
     }
     /**
-     * Store a newly created resource in storage.
+     * Kontroler zapisania nowego zamówienia w bazie.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -43,15 +43,19 @@ class OrderController extends Controller
     public function storeOrder(StoreOrderRequest $request)
     {
         $data = $request->validated();
-        $idAddress = $this->addressRepository->storeUserAddress($data);
-        $idUser = $this->userRepository->storeUser($data, $idAddress);
-        $idOrder = $this->orderRepository->storeOrder($data, $idAddress, $idUser);
-        $this->orderItemsRepository->storeOrderItems($data, $idOrder);
+        // $idAddress = $this->addressRepository->storeUserAddress($data);
+        // $idUser = $this->userRepository->storeUser($data, $idAddress);
+        // $idOrder = $this->orderRepository->storeOrder($data, $idAddress, $idUser);
+        // $this->orderItemsRepository->storeOrderItems($data, $idOrder);
 
         return response()->json(['success'=>'Successfully']);
     }
     public function getDiscountId(Request $request){
 
+        // $validated = $request->validate([
+        //     'title' => 'required|unique:posts|max:255',
+        //     'body' => 'required',
+        // ]);
         $data = $request->all();
         $discount =  $this->discountRepository->checkIfDiscountCodeExist($data);
 

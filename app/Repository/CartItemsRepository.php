@@ -11,7 +11,7 @@ class CartItemsRepository
     {
         $this->cartItemModel = $cartItemModel;
     }
-
+    //Pobieranie produktów koszyka o danym id_cart
     public function getCartItems($id)
     {
         return $this->cartItemModel

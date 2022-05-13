@@ -11,12 +11,12 @@ class CartRepository
     {
         $this->cartModel = $cartModel;
     }
-
+    //Pobieranie koszyka
     public function getCart($id)
     {
         return $this->cartModel->find($id);
     }
-
+    //Pobieranie wartości total z koszyka
     public function getTotalCard($id): float
     {
         $cart = $this->cartModel->find($id);

@@ -1,7 +1,7 @@
 @extends('welcome')
 @section('content')
     <div>
-        <form method="POST" enctype="multipart/form-data" id="checkoutForm">
+        <form method="POST" enctype="multipart/form-data" id="checkoutForm" name="checkoutForm">
             @csrf
             <div class="row m-3">
                 <div class="col-xl-4 col-md-6 col-sm-12">
@@ -14,7 +14,7 @@
                     </div>
                     <div class="mt-3 mb-3">
                         <input class="inputCheckbox" name="register" type="checkbox" id="register">
-                        <label class="checkboxLabel">Stwórz nowe konto</label>
+                        <label class="checkboxLabel ml-1">Stwórz nowe konto</label>
                     </div>
                     <span class="text-danger" id="registerErrorMsg"></span>
                     <div class="newAccount" id="newAccount">
@@ -68,9 +68,9 @@
                             <span class="text-danger" id="phoneErrorMsg"></span>
                         </div>
 
-                        <div class="form-group mt-3">
+                        <div class="form-group mt-3 mb-2">
                             <input class="inputCheckbox" name="diffrentAddress" type="checkbox" id="diffrentAddress">
-                            <label class="checkboxLabel">Dostawa pod inny adres</label>
+                            <label class="checkboxLabel ml-1">Dostawa pod inny adres</label>
                         </div>
                     </div>
                     <div id="diffrentAddressSection">
@@ -91,7 +91,7 @@
                                 <input type="text" name="zipcodeSecond" id="zipcodeSecond" placeholder="Kod pocztowy *">
                                 <span class="text-danger" id="zipcodeSecondErrorMsg"></span>
                             </div>
-                            <div class=" col-6 form-group">
+                            <div class=" col-6 form-group mb-5">
                                 <input type="text" name="citySecond" id="citySecond" placeholder="Miasto">
                                 <span class="text-danger" id="citySecondErrorMsg"></span>
                             </div>
@@ -103,6 +103,7 @@
                         <i class="fa-solid fa-truck-fast mr-2"></i> 2. METODA DOSTAWY
                     </div>
                     <div class="p-2 row mt-3">
+                        <span class="text-danger" id="shippingErrorMsg"></span>
                         @foreach ($shippingMethods as $shippingMethod)
                             <div class=" d-flex w-100 mb-5 justify-content-center align-items-center">
                                 <div class="d-flex">
@@ -123,11 +124,11 @@
                             </div>
                         @endforeach
                     </div>
-                    <span class="text-danger" id="shippingErrorMsg"></span>
                     <div class="myCard d-flex align-items-center">
                         <i class="fa-solid fa-credit-card mr-2"></i> 3. METODA PŁATNOŚCI
                     </div>
                     <div class="p-2 row mt-3">
+                        <span class="text-danger" id="paymentErrorMsg"></span>
                         @foreach ($paymentMethods as $paymentMethod)
                             <div class=" d-flex w-100 mb-5 align-items-center" id="payment-{{ $paymentMethod->id }}">
                                 <div class="d-flex">
@@ -144,12 +145,11 @@
                             </div>
                         @endforeach
                     </div>
-                    <span class="text-danger" id="paymentErrorMsg"></span>
-                    <div class="form-group mt-3">
+                    <div class="form-group mt-1">
                         <input type="text" name="discountCode" id="discountCode" placeholder="Kod rabatowy">
                         <span class="text-danger" id="discountErrorMsg"></span>
                     </div>
-                    <button type="button" class="discountButton mt-2 mb-5">Dodaj kod rabatowy</button>
+                    <button type="button" class="discountButton mt-2 mb-5" id="discountButton">Dodaj kod rabatowy</button>
                 </div>
 
                 <div class="col-xl-4 col-md-6 col-sm-12 ">
@@ -183,7 +183,7 @@
                                 Suma częściowa
                             </div>
                             <div class="d-flex justify-content-end ">
-                                 {{ number_format($cart->total, 2, ',', '.') }} zł
+                                {{ number_format($cart->total, 2, ',', '.') }} zł
                             </div>
                         </div>
 
@@ -213,14 +213,16 @@
                         <textarea class="" id="comment" name="comment" rows="3" placeholder="Komentarz"></textarea>
                     </div>
                     <div class="form-group mt-3">
-                        <input class="inputCheckbox" name="newsletter" type="checkbox" id="newsletter"> Zapisz
-                        się,
-                        aby
-                        otrzymywać newsletter</>
+                        <input class="inputCheckbox" name="newsletter" type="checkbox" id="newsletter">
+                        <label class="checkboxLabel ml-1">Zapisz
+                            się,
+                            aby
+                            otrzymywać newsletter</></label>
                     </div>
-                    <div class="form-group mt-3">
-                        <input class="inputCheckbox" name="terms" type="checkbox" id="terms"> Zapoznałam/em
-                        się z <a class="text-primary" href="">Regulaminem</a> zakupów</>
+                    <div class="form-group mt-3 ">
+                        <input class="inputCheckbox" name="terms" type="checkbox" id="terms">
+                        <label class="checkboxLabel ml-1">Zapoznałam/em
+                            się z <a class="text-primary" href="">Regulaminem</a> zakupów</> </label>
                         <span class="text-danger" id="termsErrorMsg"></span>
                     </div>
                     <button type="button" class="submitButton btn-submit mt-4">Potwierdź zakup</button>

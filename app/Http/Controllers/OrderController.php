@@ -53,7 +53,6 @@ class OrderController extends Controller
     }
     public function getDiscountId(Request $request)
     {
-
         $validated = $request->validate([
             'discountCode' => 'required'
         ]);

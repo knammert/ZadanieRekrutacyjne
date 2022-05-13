@@ -44,7 +44,8 @@ class StoreOrderRequest extends FormRequest
             'newsletter'=> '',
             'comment'=> 'nullable',
             'idCart'=> 'required',
-            'discountId' =>''
+            'discountId' =>'',
+            'g-recaptcha-response' => 'required',
         ];
     }
     public function messages()
@@ -53,7 +54,8 @@ class StoreOrderRequest extends FormRequest
             'shipping.required' => 'Wybierz metodę dostawy',
             'payment.required' => 'Wybierz metodę płatności',
             'terms.in' => 'Zaakceptuj regulamin serwisu',
-            'register.in' => 'Nie jesteś zalogowany. Załóż konto lub zaloguj się'
+            'register.in' => 'Nie jesteś zalogowany. Załóż konto lub zaloguj się',
+            'g-recaptcha-response.required' => 'Proszę wypełnić reCaptcha'
         ];
     }
 }

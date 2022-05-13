@@ -21,13 +21,13 @@ class OrderController extends Controller
     private OrderItemsRepository $orderItemsRepository;
     private DiscountRepository $discountRepository;
 
-    public function __construct(UserRepository $userRepository,
-    AddressRepository $addressRepository,
-    OrderRepository $orderRepository,
-    OrderItemsRepository $orderItemsRepository,
-    DiscountRepository $discountRepository
-    )
-    {
+    public function __construct(
+        UserRepository $userRepository,
+        AddressRepository $addressRepository,
+        OrderRepository $orderRepository,
+        OrderItemsRepository $orderItemsRepository,
+        DiscountRepository $discountRepository
+    ) {
         $this->userRepository = $userRepository;
         $this->addressRepository = $addressRepository;
         $this->orderRepository = $orderRepository;
@@ -48,10 +48,11 @@ class OrderController extends Controller
         $order = $this->orderRepository->storeOrder($data, $idAddress, $user->id);
         $this->orderItemsRepository->storeOrderItems($data, $order->id);
 
-        return response()->json(['url'=>url("/ordered/?name={$user->name}&orderNumber={$order->orderNumber}&total={$order->total}&orderDate={$order->created_at}")]);
-
+        // return response();
+        return response()->json(['url' => url("/ordered/?name={$user->name}&orderNumber={$order->orderNumber}&total={$order->total}&orderDate={$order->created_at}")]);
     }
-    public function getDiscountId(Request $request){
+    public function getDiscountId(Request $request)
+    {
 
         $validated = $request->validate([
             'discountCode' => 'required'
@@ -60,5 +61,4 @@ class OrderController extends Controller
 
         return $discount;
     }
-
 }

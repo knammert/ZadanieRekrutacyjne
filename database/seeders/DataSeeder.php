@@ -75,14 +75,13 @@ class DataSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        DB::table('products')->insert([
-            'id' => 2,
-            'name' => 'Testowy produkt dwa',
-            'price' => 155.00,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-
+        // DB::table('products')->insert([
+        //     'id' => 2,
+        //     'name' => 'Testowy produkt dwa',
+        //     'price' => 155.00,
+        //     'created_at' => Carbon::now(),
+        //     'updated_at' => Carbon::now()
+        // ]);
         DB::table('carts')->insert([
             'id' => 1,
             'total' => 155.00,
@@ -99,14 +98,6 @@ class DataSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        DB::table('cart_items')->insert([
-            'id' => 2,
-            'cart_id' => 1,
-            'product_id' => 2,
-            'quantity' => 2,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
 
         DB::table('discounts')->insert([
             'id' => 1,

@@ -26,7 +26,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
         <link href="{{ asset('css/styles.css') }}" rel="stylesheet" type="text/css" >
         <meta name="csrf-token" content="{{ csrf_token() }}" />
-
+        {!! ReCaptcha::htmlScriptTagJsApi() !!}
     </head>
     <body class="antialiased">
         <main>

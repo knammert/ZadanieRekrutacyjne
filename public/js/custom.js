@@ -43,6 +43,7 @@ $('#shippingErrorMsg').text(response.responseJSON.errors.shipping);
 $('#paymentErrorMsg').text(response.responseJSON.errors.payment);
 $('#termsErrorMsg').text(response.responseJSON.errors.terms);
 $('#registerErrorMsg').text(response.responseJSON.errors.register);
+$('#captchaErrorMsg').text(response.responseJSON.errors['g-recaptcha-response']);
 }
 //Wyświetlenie formularza rejestracji
 function userInputDataVisability() {
@@ -67,13 +68,17 @@ function showPaymentMethodsVisability() {
        $ShippingValue = ($('input[name="shipping"]:checked').val());
 
        if($ShippingValue == 1||$ShippingValue == 2){
+            $("#payment-1").addClass("d-flex").removeClass("d-none");
             $("#payment-1").show();
             $("#payment-2").show();
+            $("#payment-3").addClass("d-flex").removeClass("d-none");
             $("#payment-3").show();
        }
        else if($ShippingValue == 3) {
+            $("#payment-1").removeClass("d-flex").addClass("d-none");
             $("#payment-1").hide();
             $("#payment-2").show();
+            $("#payment-3").removeClass("d-flex").addClass("d-none");
             $("#payment-3").hide();
        }
        $('input[name="payment"]').prop('checked', false);
@@ -122,6 +127,7 @@ function updateTotalPrice(){
     $('#summaryPrice').html(summaryPrice +' zł');
 
 }
+
 
 $(document).ready(function () {
     //Tłumaczenie wiadomości walidacji
@@ -189,6 +195,16 @@ $(document).ready(function () {
 
     $("#newAccount").hide();
     $("#diffrentAddressSection").hide();
+    //Wyświetlanie/chowanie hasła
+    $(".toggle-password").click(function() {
+        $(this).toggleClass("fa-solid fa-eye-slash" );
+        var input = $($(this).attr("toggle"));
+        if (input.attr("type") == "password") {
+            input.attr("type", "text");
+        } else {
+            input.attr("type", "password");
+        }
+    });
     //Checkbox rejestracji
     $("#register").click(function () {
         userInputDataVisability();
@@ -211,7 +227,6 @@ $(document).ready(function () {
     //Obsługa formularza nowego zamówienia
     $(".btn-submit").click(function(e) {
         e.preventDefault();
-
         //  Checkboxes
         let register =  document.getElementById('register').checked ? 1 : 0;
         let diffrentAddress =  document.getElementById('diffrentAddress').checked ? 1 : 0;
@@ -233,6 +248,7 @@ $(document).ready(function () {
         let zipcodeSecond = $('#zipcodeSecond').val();
         let citySecond = $('#citySecond').val();
         let comment = $('#comment').val();
+        let gRecaptchaResponse = $('#g-recaptcha-response').val();
         //  Radio
         let shipping = $("input[name='shipping']:checked").val();
         let payment = $("input[name='payment']:checked").val();
@@ -265,13 +281,15 @@ $(document).ready(function () {
                     diffrentAddress:diffrentAddress,
                     newsletter: newsletter,
                     terms: terms,
-                    discountId: discountId
+                    discountId: discountId,
+                    'g-recaptcha-response':gRecaptchaResponse
                 },
                 success:function(response){
                     console.log(response);
                     window.location=response.url;
                 },
                 error: function(response) {
+                    console.log(response);
                     cleanValidationMessages();
                     showValidationMessages(response);
                 },

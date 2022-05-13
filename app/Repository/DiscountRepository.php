@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repository;
 
 use App\Models\Discount;
@@ -24,27 +25,30 @@ class DiscountRepository
         $discount = $this->discountModel
             ->where('code', $data['discountCode'])
             ->first();
-        if($discount == null){
-            return response()->json([
-                'discountError' => "Brak podanego kodu w serwisie",
-            ], 422);
-        }
-        else if($discount->active == false){
-            return response()->json([
-                'discountError' => "Podany kod wygasł",
-            ], 422);
-        }
-        else{
+        if ($discount == null) {
+            $data = [
+                    "errors" => [
+                        "discountCode" => "Podany kod nie istnieje",
+                    ],
+            ];
+            return response()->json($data, 422);
+        } else if ($discount->active == false) {
+            $data = [
+                "errors" => [
+                    "discountCode" => "Podany kod wygasł",
+                    ],
+                ];
+            return response()->json($data, 422);
+        } else {
             return response()->json([
                 'discount' => $discount,
             ]);
         }
     }
     //pobieranie wartości amount z rabatu
-    public function getDiscountAmount($idDiscount){
+    public function getDiscountAmount($idDiscount)
+    {
         $discount = $this->getDiscount($idDiscount);
         return $discount->amount;
     }
-
-
 }

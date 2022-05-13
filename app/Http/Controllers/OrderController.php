@@ -52,12 +52,10 @@ class OrderController extends Controller
     }
     public function getDiscountId(Request $request){
 
-        // $validated = $request->validate([
-        //     'title' => 'required|unique:posts|max:255',
-        //     'body' => 'required',
-        // ]);
-        $data = $request->all();
-        $discount =  $this->discountRepository->checkIfDiscountCodeExist($data);
+        $validated = $request->validate([
+            'discountCode' => 'required'
+        ]);
+        $discount =  $this->discountRepository->checkIfDiscountCodeExist($validated);
 
         return $discount;
     }

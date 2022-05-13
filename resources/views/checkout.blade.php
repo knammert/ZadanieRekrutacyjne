@@ -186,7 +186,6 @@
                                 {{ number_format($cart->total, 2, ',', '.') }} zł
                             </div>
                         </div>
-
                         <div class="d-flex w-100 mt-2 ">
                             <div class="d-flex flex-grow-1 ml-2 " id="shippingPrice1">
                             </div>

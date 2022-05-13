@@ -294,9 +294,10 @@ $(document).ready(function () {
                 addDiscountToSummary(response);
             },
             error: function(response) {
+                console.log(response);
                 $('#discountErrorMsg').removeClass('text-success').addClass('text-danger');
                 $('#discountErrorMsg').text('');
-                $('#discountErrorMsg').text(response.responseJSON.discountError);
+                $('#discountErrorMsg').text(response.responseJSON.errors.discountCode);
             },
         });
     });

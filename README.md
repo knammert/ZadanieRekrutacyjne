@@ -10,7 +10,7 @@ Aby uruchomić projekt należy wejść do folderu projektu i w cli wykonać:
 - php artisan db:seed
 - php artisan serve
 
-Po wejściu na localhosta powinno przekierwoać do zadania.
+Po wejściu na localhosta powinno przekierować do zadania.
 Udało mi się zrealizować prawie wszystkie zadania oprócz testów, SCCS'a i wykonaniu we VueJS.
 
 --- Kilka słów o bazie ---

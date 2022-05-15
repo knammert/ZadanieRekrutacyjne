@@ -29,6 +29,16 @@ Kody rabatowe:
 ZAKUPY24 - nieaktwyny
 SmartBees - aktywny
 
+Kod głównie znajduje się w folderach:
+app/Http/Controllers - kontrolery
+app/Http/Models - modele
+app/Http/Repository - logika na modelach
+resources/views - widoki
+public/css - własny css
+public/js/custom.js - osbługa formularza w js (walidacje itd.)
+
+
+
 
 
 

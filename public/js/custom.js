@@ -287,11 +287,9 @@ $(document).ready(function () {
                     'g-recaptcha-response':gRecaptchaResponse
                 },
                 success:function(response){
-                    console.log(response);
                     window.location=response.url;
                 },
                 error: function(response) {
-                    console.log(response);
                     cleanValidationMessages();
                     showValidationMessages(response);
                 },
@@ -317,7 +315,6 @@ $(document).ready(function () {
                 addDiscountToSummary(response);
             },
             error: function(response) {
-                console.log(response);
                 $('#discountErrorMsg').removeClass('text-success').addClass('text-danger');
                 $('#discountErrorMsg').text('');
                 $('#discountErrorMsg').text(response.responseJSON.errors.discountCode);

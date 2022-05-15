@@ -14,14 +14,14 @@ Po wejściu na localhosta powinno przekierwoać do zadania.
 Udało mi się zrealizować prawie wszystkie zadania oprócz testów, SCCS'a i wykonaniu we VueJS.
 
 --- Kilka słów o bazie ---
-- users 
+- users - tabela użytkowników
 - addresses - adresy użytkowników jak i dostaw
 - shippings - opcje dostawy pobierane są z bazy
 - payments - opcje płatności również pobierane są z bazy
-- products
-- carts -
+- products - tabela produktów
+- carts - tabela koszyku
 - cart_items - produkty przypisywane do danego koszyka
-- orders - 
+- orders - zamówienia
 - order_items - podobnie jak z koszykiem tylko, że dla zamówień
 - discounts - rabaty uwzględniłem tylko w złotówkach.
 
